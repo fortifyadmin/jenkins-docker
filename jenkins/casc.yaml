@@ -4,7 +4,19 @@ jenkins:
       allowsSignup: false
       users:
        - id: ${JENKINS_ADMIN_ID}
-       - password: ${JENKINS_ADMIN_PASSWORD}
+       password: ${JENKINS_ADMIN_PASSWORD}
+  authorizationStrategy:
+    globalMatrix:
+      permissions:
+        - "Overall/Administer:admin"
+        - "Overall/Read:authenticated"
+  remotingSecurity:
+    enabled: true
+security:
+  queueItemAuthenticator:
+    authenticators:
+    - global:
+        strategy: triggeringUsersAuthorizationStrategy
 unclassified:
   location:
     url: http://server_ip:8080/

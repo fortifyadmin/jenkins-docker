@@ -2,7 +2,7 @@ version: '3'
 services:
   jenkins-master:
     image: jenkins:lts
-    container_name: jenkins-master
+    container_name: jenkins-master:casc
     restart: always
     hostname: jenkins-master
     privileged: true
