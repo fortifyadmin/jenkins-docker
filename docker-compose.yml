@@ -2,7 +2,7 @@ version: '3'
 services:
   jenkins-master:
     image: jenkins:lts
-    container_name: jenkins-master:casc
+    container_name: jenkins-jcasc
     restart: always
     hostname: jenkins-master
     privileged: true
@@ -10,9 +10,8 @@ services:
     build:
       context: jenkins
       dockerfile: Dockerfile
-    environment:
-      JENKINS_AGENT_PORT: 5001
     ports:
+      - 50000:50000
       - 8080:8080
     volumes:
       - /var/jenkins_home:/var/jenkins_home

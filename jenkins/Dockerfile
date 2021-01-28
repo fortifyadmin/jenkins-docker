@@ -6,15 +6,15 @@ ARG JENKINS_ADMIN_PASSWORD=abc123
 
 ENV GROUP_ID=${GROUP_ID} \
     DOCKER_VERSION=18.03.1 \
-    _JAVA_OPTIONS="$JAVA_OPTS -Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://spruth.co \
-    -Djava.util.logging.config.file=/var/jenkins_home/log.properties" \
-    CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml \
     JENKINS_ADMIN_ID=${JENKINS_ADMIN_ID} \
     JENKINS_ADMIN_PASSWORD=${JENKINS_ADMIN_PASSWORD}
 
+ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://spruth.co \
+    -Djava.util.logging.config.file=/var/jenkins_home/log.properties ${JAVA_OPTS:-}" 
+
 USER root
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY casc.yaml /var/jenkins_home/casc.yaml
+COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY log.properties /var/jenkins_home/log.properties
 
