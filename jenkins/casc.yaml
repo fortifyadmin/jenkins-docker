@@ -12,6 +12,22 @@ jenkins:
         - "Overall/Read:authenticated"
   remotingSecurity:
     enabled: true
+  nodes:
+    - permanent:
+        name: "fortify-agent"
+        remoteFS: "/home/jenkins"
+        launcher:
+          jnlp:
+            workDirSettings:
+              disabled: true
+              failIfWorkDirIsMissing: false
+              internalDir: "remoting"
+              workDirPath: "/tmp"
+tool:
+  git:
+    installations:
+      - name: git
+        home: /usr/local/bin/git
 security:
   queueItemAuthenticator:
     authenticators:

@@ -6,13 +6,19 @@ ARG JENKINS_ADMIN_PASSWORD=abc123
 
 ENV GROUP_ID=${GROUP_ID} \
     DOCKER_VERSION=18.03.1 \
-    _JAVA_OPTIONS="$JAVA_OPTS -Djenkins.install.runSetupWizard=false" \
+    _JAVA_OPTIONS="$JAVA_OPTS -Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://spruth.co \
+    -Djava.util.logging.config.file=/var/jenkins_home/log.properties" \
     CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml \
     JENKINS_ADMIN_ID=${JENKINS_ADMIN_ID} \
     JENKINS_ADMIN_PASSWORD=${JENKINS_ADMIN_PASSWORD}
 
 USER root
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+COPY casc.yaml /var/jenkins_home/casc.yaml
+COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
+COPY log.properties /var/jenkins_home/log.properties
 
+# groupadd and usermod are not required, future feature of running service as jenkins user with hosted docker service
 RUN mkdir -p /tmp/download && \
     curl -L https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}-ce.tgz | tar -xz -C /tmp/download && \
     rm -rf /tmp/download/docker/dockerd && \
@@ -20,9 +26,6 @@ RUN mkdir -p /tmp/download && \
     rm -rf /tmp/download && \
     groupadd -g ${GROUP_ID} docker && \
     usermod -aG staff,docker jenkins
-
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY casc.yaml /var/jenkins_home/casc.yaml
 
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
