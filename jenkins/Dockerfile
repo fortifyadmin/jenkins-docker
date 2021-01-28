@@ -14,7 +14,6 @@ ENV JAVA_OPTS "-Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://
 
 USER root
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY log.properties /var/jenkins_home/log.properties
 
