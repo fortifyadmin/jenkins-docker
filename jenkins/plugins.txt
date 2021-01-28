@@ -21,3 +21,5 @@ workflow-aggregator:latest
 ws-cleanup:latest
 docker-build-publish:latest
 nodejs:latest
+docker-plugin:latest
+bouncycastle-api:latest
