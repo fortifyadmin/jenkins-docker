@@ -1,62 +1,118 @@
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
-
   globalNodeProperties:
     - envVars:
         env:
           - key: FOO
             value: BAR
-
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: true
+  labelAtoms:
+  - name: "master"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 5
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: false
+  scmCheckoutRetryCount: 0
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
   securityRealm:
     local:
       allowsSignup: false
       users:
-       - id: ${JENKINS_ADMIN_ID}
-         password: ${JENKINS_ADMIN_PASSWORD}
-
+       - id: brandon
+         password: abc123
   authorizationStrategy:
     globalMatrix:
       permissions:
         - "Overall/Administer:admin"
         - "Overall/Read:authenticated"
-
-  remotingSecurity:
-    enabled: true
-
-  clouds:
-    - docker:
-        name: "docker"
-        dockerApi:
-          dockerHost:
-            uri: "unix:///var/run/docker.sock"
-        templates:
-          - labelString: "docker-agent"
-            dockerTemplateBase:
-              image: "jenkins/slave"
-              volumes:
-                - hello:/hello
-                - world:/world
-              environmentsString: |
-                hello=world
-                foo=bar
-            remoteFs: "/home/jenkins"
-            connector:
-              attach:
-                user: "jenkins"
-            instanceCapStr: "10"
-              
-tool:
-  git:
-    installations:
-      - name: git
-        home: /usr/local/bin/git
-
 security:
   queueItemAuthenticator:
     authenticators:
-    - global:
-        strategy: triggeringUsersAuthorizationStrategy
-
+      - global:
+          strategy: triggeringUsersAuthorizationStrategy
+  apiToken:
+    creationOfLegacyTokenEnabled: true
+    tokenGenerationOnCreationEnabled: true
+    usageStatisticsEnabled: true
+  sSHD:
+    port: -1
 unclassified:
+  unclassified:
+    location:
+      url: http://ec2-18-206-16-188.compute-1.amazonaws.com:8080/
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  buildStepOperation:
+    enabled: false
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "http://ec2-18-206-16-188.compute-1.amazonaws.com:8080/github-webhook/"
+  gitSCM:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  junitTestResultStorage:
+    storage: "file"
   location:
-    url: http://server_ip:8080/
+    adminAddress: "Brandon Spruth <brandon.spruth@servicenow.com>"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
