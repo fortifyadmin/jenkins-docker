@@ -1,118 +1,53 @@
+
 jenkins:
-  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
-  globalNodeProperties:
-    - envVars:
-        env:
-          - key: FOO
-            value: BAR
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
-  crumbIssuer:
-    standard:
-      excludeClientIPFromCrumb: false
-  disableRememberMe: true
-  labelAtoms:
-  - name: "master"
-  markupFormatter: "plainText"
+  systemMessage: "\n\nDemo setup for Jenkins Configuration as Code plugin......\n\n"
+
+  numExecutors: 1
   mode: NORMAL
-  myViewsTabBar: "standard"
-  numExecutors: 5
-  primaryView:
-    all:
-      name: "all"
-  projectNamingStrategy: "standard"
-  quietPeriod: 5
-  remotingSecurity:
-    enabled: false
-  scmCheckoutRetryCount: 0
-  slaveAgentPort: 50000
-  updateCenter:
-    sites:
-    - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
-  views:
-  - all:
-      name: "all"
-  viewsTabBar: "standard"
+  scmCheckoutRetryCount: 3
+  labelString: "master-label"
+
   securityRealm:
     local:
       allowsSignup: false
       users:
-       - id: brandon
-         password: abc123
+       - id: admin
+         password: ${adminpw:-passw0rd}
+
   authorizationStrategy:
     globalMatrix:
-      permissions:
+      grantedPermissions:
         - "Overall/Administer:admin"
         - "Overall/Read:authenticated"
+
+  crumbIssuer: "standard"
+
+  remotingSecurity:
+    enabled: true
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        - usernamePassword:
+            scope:    GLOBAL
+            id:       github-user
+            username: XXXX
+            password: ${github:-githubPassw0rd}
+            description: github username/password
+
 security:
   queueItemAuthenticator:
     authenticators:
-      - global:
-          strategy: triggeringUsersAuthorizationStrategy
-  apiToken:
-    creationOfLegacyTokenEnabled: true
-    tokenGenerationOnCreationEnabled: true
-    usageStatisticsEnabled: true
-  sSHD:
-    port: -1
-unclassified:
-  unclassified:
-    location:
-      url: http://ec2-18-206-16-188.compute-1.amazonaws.com:8080/
-  buildDiscarders:
-    configuredBuildDiscarders:
-    - "jobBuildDiscarder"
-  buildStepOperation:
-    enabled: false
-  email-ext:
-    adminRequiredForTemplateTesting: false
-    allowUnregisteredEnabled: false
-    charset: "UTF-8"
-    debugMode: false
-    defaultBody: |-
-      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+    - global:
+        strategy: triggeringUsersAuthorizationStrategy
 
-      Check console output at $BUILD_URL to view the results.
-    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
-    defaultTriggerIds:
-    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
-    maxAttachmentSize: -1
-    maxAttachmentSizeMb: -1
-    precedenceBulk: false
-    watchingEnabled: false
-  fingerprints:
-    fingerprintCleanupDisabled: false
-    storage: "file"
-  gitHubConfiguration:
-    apiRateLimitChecker: ThrottleForNormalize
-  gitHubPluginConfig:
-    hookUrl: "http://ec2-18-206-16-188.compute-1.amazonaws.com:8080/github-webhook/"
-  gitSCM:
-    addGitTagAction: false
-    allowSecondFetch: false
-    createAccountBasedOnEmail: false
-    disableGitToolChooser: false
-    hideCredentials: false
-    showEntireCommitSummaryInChanges: false
-    useExistingAccountWithSameEmail: false
-  junitTestResultStorage:
-    storage: "file"
+unclassified:
   location:
-    adminAddress: "Brandon Spruth <brandon.spruth@servicenow.com>"
-  mailer:
-    charset: "UTF-8"
-    useSsl: false
-    useTls: false
-  pollSCM:
-    pollingThreadCount: 10
-  timestamper:
-    allPipelines: false
-    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
-    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+    url: http://server_ip:8080/
+
 tool:
   git:
     installations:
-    - home: "git"
-      name: "Default"
+      - name: Default
+        home: "git"
