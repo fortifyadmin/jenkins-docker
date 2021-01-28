@@ -1,8 +1,8 @@
 
 jenkins:
-  systemMessage: "\n\nDemo setup for Jenkins Configuration as Code plugin......\n\n"
+  systemMessage:  "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
 
-  numExecutors: 1
+  numExecutors: 5
   mode: NORMAL
   scmCheckoutRetryCount: 3
   labelString: "master-label"
@@ -45,6 +45,7 @@ security:
 unclassified:
   location:
     url: http://server_ip:8080/
+    adminAddress: "Brandon Spruth <brandon.spruth@servicenow.com>"
 
 tool:
   git:
