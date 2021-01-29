@@ -12,7 +12,7 @@ jenkins:
       allowsSignup: false
       users:
        - id: admin
-         password: ${adminpw:-passw0rd}
+         password: ${admin:-passw0rd}
 
   authorizationStrategy:
     globalMatrix:
@@ -32,10 +32,26 @@ credentials:
         - usernamePassword:
             scope:    GLOBAL
             id:       github-user
-            username: XXXX
+            username: xolian
             password: ${github:-githubPassw0rd}
             description: github username/password
 
+domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope:    SYSTEM
+              id:       github-user
+              username: ReleasePraqma
+              password: ${github}
+          - basicSSHUserPrivateKey:
+              scope: SYSTEM
+              id: agent-private-key
+              username: agentuser
+              passphrase:  ""
+              description: "ssh private key used to connect ssh slaves"
+              privateKeySource:
+                directEntry:
+                  privateKey: ${agent_private_key}
 security:
   queueItemAuthenticator:
     authenticators:
@@ -44,11 +60,20 @@ security:
 
 unclassified:
   location:
-    url: http://server_ip:8080/
-    adminAddress: "Brandon Spruth <brandon.spruth@servicenow.com>"
+    url: http://fortifyadmin.io/
+    adminAddress: brandon@fortifyadmin.io
 
 tool:
   git:
     installations:
       - name: Default
         home: "git"
+  nodejs:
+    installations:
+      - name: "nodejs"
+        properties:
+          - installSource:
+              installers:
+                - nodeJSInstaller:
+                    id: "15.7.0"
+                    npmPackagesRefreshHours: 72

@@ -7,6 +7,8 @@ services:
     hostname: jenkins-master
     privileged: true
     user: root
+    env_file:
+      - jenkins/build.properties
     build:
       context: jenkins
       dockerfile: Dockerfile
@@ -16,3 +18,14 @@ services:
     volumes:
       - /var/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+#    secrets:
+#      - github
+#      - adminpw
+#      - agent_private_key
+#secrets:
+#  github:
+#    file: /var/deploy/secrets/github
+#  adminpw:
+#    file: /var/deploy/secrets/local
+#  agent_private_key: #This should point to the private key you want your jenkins master to use when connecting to slaves.  So in AWS for example this would be your .pem file
+#    file: ~/.ssh/id_rsa

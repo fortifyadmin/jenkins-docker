@@ -1,0 +1,10 @@
+  globalLibraries:
+    libraries:
+      - name: "security-shared@master"
+        implicit: true
+        defaultVersion: "master"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/fortifyadmin/shared-pipeline.git"

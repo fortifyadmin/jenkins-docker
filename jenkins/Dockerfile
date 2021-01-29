@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:lts
 
-ARG GROUP_ID=999
+ARG GROUP_ID=998
 
 ENV GROUP_ID=${GROUP_ID} \
     DOCKER_VERSION=18.03.1 \
@@ -13,7 +13,8 @@ USER root
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 COPY log.properties /usr/share/jenkins/ref/log.properties
-COPY jenkins.yaml /usr/share/jenkins/ref/jenkins.yaml
+COPY jenkins.yaml ${CASC_JENKINS_CONFIG}/jenkins.yaml
+COPY other.yaml ${CASC_JENKINS_CONFIG}/other.yaml
 
 # groupadd and usermod are not required, future feature of running service as jenkins user with hosted docker service
 RUN mkdir -p /tmp/download && \
